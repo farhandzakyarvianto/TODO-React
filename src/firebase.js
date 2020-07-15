@@ -5,9 +5,9 @@
 import firebase from "firebase";
 
 const firebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyCPb3tyqzZWaEskGpcFE_hCyacTWqu-Oew",
-    authDomain: "todo-app-react-284de.firebaseapp.com",
-    databaseURL: "https://todo-app-react-284de.firebaseio.com",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DBURL,
     projectId: "todo-app-react-284de",
     storageBucket: "todo-app-react-284de.appspot.com",
      messagingSenderId: "383993970763",
