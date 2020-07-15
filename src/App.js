@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Button, Input, FormControl, InputLabel} from '@material-ui/core'
 import './App.css';
 import Todo from './Todo';
+import db from './firebase';
+import firebase from 'firebase';
 
 function App() {
-  const [todos, setTodos] = useState(['Take dog for a walk', 'Take the rubbish out', 'testing']);
+  const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
-  console.log(input);
+
+  //when the upload we need to listen to the database and fetch new todos as they get added/remove
+  useEffect(() => {
+    ////this code here fires when the app.js loads
+    db
+    .collection('todos')
+    .orderBy('timestamp', 'desc')
+    .onSnapshot(snapshot => {
+      setTodos(snapshot.docs.map(doc => doc.data().text))
+    })
+  }, []);
 
   const addTodo = (event) => {
     //fungsi yang menghandle saat button di click
     event.preventDefault(); //mencegah refresh
-    console.log('Im working');
+    //
+    db.collection('todos').add({
+      text: input,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
     setTodos([...todos, input]);
     setInput(''); //set input kosong setelah klik button
   }
